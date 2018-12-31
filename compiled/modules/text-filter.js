@@ -18,12 +18,18 @@ module.exports = function (h, inputClass) {
         debouncedSearch.apply(undefined, arguments);
       }
     };
+
+    var onBlur = function onBlur(e) {
+      debouncedSearch.clear();
+      search.apply(undefined, arguments);
+    };
   }
 
   return function (column) {
     return h('input', {
       on: {
-        'keyup': _this.opts.debounce ? onKeyUp : search
+        'keyup': _this.opts.debounce ? onKeyUp : search,
+        'blur': _this.opts.debounce ? onBlur : search
       },
 
       'class': inputClass,
